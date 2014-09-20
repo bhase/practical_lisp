@@ -6,6 +6,7 @@
   (loop for n from num when (primep n) return n))
 
 (defmacro do-primes ((var start end) &body body)
-  `(do ((,var (next-prime ,start) (next-prime (1+ ,var))))
-        ((> ,var ,end))
-        ,@body))
+  (let ((ending-value-name (gensym)))
+    `(do ((,var (next-prime ,start) (next-prime (1+ ,var))))
+       ((> ,var ,ending-value-name))
+       ,@body)))
