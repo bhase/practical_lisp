@@ -7,6 +7,7 @@
 
 (defmacro do-primes ((var start end) &body body)
   (let ((ending-value-name (gensym)))
-    `(do ((,var (next-prime ,start) (next-prime (1+ ,var))))
+    `(do ((,var (next-prime ,start) (next-prime (1+ ,var)))
+          (,ending-value-name ,end))
        ((> ,var ,ending-value-name))
        ,@body)))
