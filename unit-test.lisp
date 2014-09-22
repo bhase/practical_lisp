@@ -2,8 +2,14 @@
   (format t "~:[FAIL~;pass~] ... ~a~%" result form)
   result)
 
+(defmacro combine-results (&body forms)
+  (let ((result (gensym)))
+    `(let ((,result t))
+       ,@(loop for f in forms collect `(unless ,f (setf ,result nil)))
+       ,result)))
+
 (defmacro check (&body forms)
-  `(progn
+  `(combine-results
      ,@(loop for f in forms collect `(report-result ,f ',f))))
 
 (defun test-+ ()
