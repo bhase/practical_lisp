@@ -1,5 +1,6 @@
 (defun report-result (result form)
-  (format t "~:[FAIL~;pass~] ... ~a~%" result form))
+  (format t "~:[FAIL~;pass~] ... ~a~%" result form)
+  result)
 
 (defmacro check (&body forms)
   `(progn
