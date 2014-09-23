@@ -14,21 +14,24 @@
   `(combine-results
      ,@(loop for f in forms collect `(report-result ,f ',f))))
 
-(defun test-+ ()
-  (let ((*test-name* 'test-+))
+(defmacro deftest (name parameters &body body)
+  `(defun ,name ,parameters
+     (let ((*test-name* (append *test-name* (list ',name))))
+       ,@body)))
+
+(deftest test-+ ()
     (check
       (= (+ 1 2) 3)
       (= (+ 1 2 3) 6)
-      (= (+ -1 -3) -4))))
+      (= (+ -1 -3) -4)))
 
-(defun test-* ()
-  (let ((*test-name* 'test-*))
+(deftest test-* ()
     (check
       (= (* 2 2) 4)
       (= (* 3 3) 9)
-      (= (* -1 7) -7))))
+      (= (* -1 7) -7)))
 
-(defun test-arithmetic ()
+(deftest test-arithmetic ()
   (combine-results
     (test-+)
     (test-*)))
